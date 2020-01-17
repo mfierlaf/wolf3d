@@ -12,7 +12,7 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 199
+# define BUFF_SIZE 1
 
 # include <string.h>
 # include <unistd.h>

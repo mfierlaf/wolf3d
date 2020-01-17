@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../header/wolf3d.h"
 
-
+/*
 int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -39,85 +39,96 @@ int worldMap[mapWidth][mapHeight]=
   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
-int	raycasting(t_bham bham, t_map *map)
+};*/
+int	raycasting(t_bham *bham, t_map *map, t_mlx *mlx)
 {
 	int x;
 
 	x = 0;
-	map->dirX = -1;
-	map->dirY = 0;
-	map->planX = 0;
-	map->planY = 0.66;
+	map->dirx = -1;
+	map->diry = 0;
+	map->planx = 0;
+	map->plany = 0.66;
 	map->time = 0;
 	map->oldtime = 0;
 	map->hit = 0;
 	map->color = 0xd4cbe5;
+	ft_printf("1\n");
 	while (x < map->x)
 	{
-		map->cameraX = 2 * x / double(map->x) - 1;
-		map->raydirX = map->dirX + map->planX * map->cameraX;
-		map->raydirY = map->dirY + map->planY * map->cameraX;
-		map->deltadistX = abs(1 /raydirX);
-		map->deltadistY = abs(1/ raydirY);
-		map->mapX = map->startX;
-		map->mapY = map->startY;
-		if (map->raydirX < 0)
+		ft_printf("2\n");
+		map->camerax = 2 * x / (double)map->x - 1;
+		map->raydirx = map->dirx + map->planx * map->camerax;
+		map->raydiry = map->diry + map->plany * map->camerax;
+		map->deltadistx = fabs(1 / map->raydirx);
+		map->deltadisty = fabs(1/ map->raydiry);
+		map->mapx = map->startx;
+		map->mapy = map->starty;
+		ft_printf("3\n");
+		if (map->raydirx < 0)
 		{
-			map->stepX = -1;
-			map->sideX = (map->startX - map->mapX) * map->deltadistX;
+			map->stepx = -1;
+			map->sidex = (map->startx - map->mapx) * map->deltadistx;
 		}
 		else
 		{
-			map->stepX = 1;
-			map->sideX = (map->mapX + 1 - map->startX) * map->deltadistX;
+			map->stepx = 1;
+			map->sidex = (map->mapx + 1 - map->startx) * map->deltadistx;
 		}
-		if (map->raydirY < 0)
+		ft_printf("4\n");
+		if (map->raydiry < 0)
 		{
-			map->stepY = -1;
-			map->sideY = (map->startY - map->mapY) * map->deltadistY;
+			map->stepy = -1;
+			map->sidey = (map->starty - map->mapy) * map->deltadisty;
 		}
 		else
 		{
-			map->stepY = 1;
-			map->sideY = (map->mapY +1 - map->startY) * map->deltadistY;
+			map->stepy = 1;
+			map->sidey = (map->mapy +1 - map->starty) * map->deltadisty;
 		}
-		while (hit = 0)
+		ft_printf("5\n");
+		while (map->hit == 0)
 		{
-			if (map->sideX < map->sideY)
+			ft_printf("6\n");
+			if (map->sidex < map->sidey)
 			{
-				map->sideX += map->deltadistX;
-				map->mapX += map->stepX;
+				map->sidex += map->deltadistx;
+				map->mapx += map->stepx;
 				map->side = 0;
 			}
 			else
 			{
-				map->sideY += map->deltadistY;
-				map->mapY += map->stepY;
+				map->sidey += map->deltadisty;
+				map->mapy += map->stepy;
 				map->side = 1;
 			}
-			if (worldMap[map->mapX][map->mapY] > 0)
-				hit = 1;
+			ft_printf("7\n");
+			if (map->h[map->mapx + (map->mapy * map->y)] == 1)
+				map->hit = 1;
 		}
+		ft_printf("8\n");
 		if (map->side == 0)
 		{
-			map->perpWallDist = (map->mapX - map->startX +
-				(1 - map->stepX) / 2) / map->raydirX;
+			map->perpwalldist = (map->mapx - map->startx +
+				(1 - map->stepx) / 2) / map->raydirx;
 		}
         else
 		{
-			map->perpWallDist = (map->mapY - map->startY +
-				(1 - map->stepY) / 2) / map->raydirY;
+			map->perpwalldist = (map->mapy - map->starty +
+				(1 - map->stepy) / 2) / map->raydiry;
 		}
-		map->linesheight = (int)(map->y / map->perpwalldist);
-		map->drawstart = - map->lineseight / 2 + map->y / 2;
+		ft_printf("9\n");
+		map->lineheight = (int)(map->y / map->perpwalldist);
+		map->drawstart = - map->lineheight / 2 + map->y / 2;
         if (map->drawstart < 0)
 			map->drawstart = 0;
         map->drawend = map->lineheight / 2 + map->y / 2;
         if (map->drawend >= map->y)
 			map->drawend = map->y - 1;
-		bresenham(bham, map);
+		ft_printf("10\n");
+		bresenham(bham, map, mlx);
+		ft_printf("11\n");
+		x++;
 	}
 	return (1);
 }

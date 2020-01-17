@@ -10,35 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../header/wolf3d.h"
 
-void	bresenham(t_bham *bham, t_map *map)
+void	bresenham(t_bham *bham, t_map *map, t_mlx *mlx)
 {
-	mlx->x0 = map->startX;
-	mlx->x1 = map->startX;
-	mlx->y0 = map->drawstart;
-	mlx->y1 = map->drawend;
-	bham->dx = abs(mlx->x1 - mlx->x0);
-	bham->sx = mlx->x0 < mlx->x1 ? 1 : -1;
-	bham->dy = abs(mlx->y1 - mlx->y0);
-	bham->sy = mlx->y0 < mlx->y1 ? 1 : -1;
+	bham->x0 = map->startx;
+	bham->x1 = map->startx;
+	bham->y0 = map->drawstart;
+	bham->y1 = map->drawend;
+	bham->dx = abs(bham->x1 - bham->x0);
+	bham->sx = bham->x0 < bham->x1 ? 1 : -1;
+	bham->dy = abs(bham->y1 - bham->y0);
+	bham->sy = bham->y0 < bham->y1 ? 1 : -1;
 	bham->err = (bham->dx > bham->dy ? bham->dx :
 		-bham->dy) / 2;
 	while (1)
 	{
-		mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, mlx->x0, mlx->y0, map->color);
-		if (mlx->x0 == mlx->x1 && mlx->y0 == mlx->y1)
+		mlx_pixel_put(mlx->mlx, mlx->win, bham->x0, bham->y0, 0xFF00FF);
+		if (bham->x0 == bham->x1 && bham->y0 == bham->y1)
 			break ;
 		bham->e2 = bham->err;
 		if (bham->e2 > -bham->dx)
 		{
 			bham->err -= bham->dy;
-			mlx->x0 += bham->sx;
+			bham->x0 += bham->sx;
 		}
 		if (bham->e2 < bham->dy)
 		{
 			bham->err += bham->dx;
-			mlx->y0 += bham->sy;
+			bham->y0 += bham->sy;
 		}
 	}
 }

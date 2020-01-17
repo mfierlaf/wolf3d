@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef WOLF3D_H
-# define WOLD3D_H
+# define WOLF3D_H
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
 # include <fcntl.h>
@@ -29,27 +29,27 @@ typedef struct 	s_map
 	int		tmp;
 	int		x;
 	int		y;
-	int		startX;
-	int		startY;
+	int		startx;
+	int		starty;
 	char	*h;
-	double 	dirX;
-	double 	dirY;
-	double 	planX;
-	double 	planY;
+	double 	dirx;
+	double 	diry;
+	double 	planx;
+	double 	plany;
 	double 	time;
 	double 	oldtime;
-	double 	cameraX;
-	double 	raydirX;
-	double 	raydirY;
-	double 	sideX;
-	double 	sideY;
-	double 	deltadistX;
-	double 	deltadistY;
+	double 	camerax;
+	double 	raydirx;
+	double 	raydiry;
+	double 	sidex;
+	double 	sidey;
+	double 	deltadistx;
+	double 	deltadisty;
 	double	perpwalldist;
-	int		stepX;
-	int 	stepY;
-	int		mapX;
-	int		mapY;
+	int		stepx;
+	int 	stepy;
+	int		mapx;
+	int		mapy;
 	int		hit;
 	int		side;
 	int		lineheight;
@@ -67,6 +67,10 @@ typedef	struct	s_bham
 	int	sx;
 	int	sy;
 	int	e2;
+	int	x0;
+	int	x1;
+	int	y0;
+	int	y1;
 }				t_bham;
 typedef	struct	s_mlx
 {
@@ -79,15 +83,11 @@ typedef	struct	s_mlx
 	int			bpp;
 	int			i_width;
 	int			i_height;
-	int			x0;
-	int			x1;
-	int			y0;
-	int			y1;
 }				t_mlx;
 /*
 **		raycasting
 */
-int				raycasting(t_bham bham, t_map *map);
+int				raycasting(t_bham *bham, t_map *map, t_mlx *mlx);
 /*
 **		key.c
 */
@@ -100,5 +100,5 @@ t_map			*parser(char *map_name);
 **		tools.c
 */
 int				ft_exit(int flag, void *s);
-void			bresenham(t_bham *bham, t_map *map);
+void			bresenham(t_bham *bham, t_map *map, t_mlx *mlx);
 #endif

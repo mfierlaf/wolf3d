@@ -18,14 +18,14 @@ t_map	*parser(char *map_name)
 	t_map *map;
 	char *line;
 
-	if ((map = ft_memalloc(sizeof(map))) == NULL)
+	if ((map = ft_memalloc(sizeof(t_map))) == NULL)
 	 	ft_exit(1, map);
 	if ((map->h = ft_strnew(0)) == NULL)
 		ft_exit(1, map);
 	if((fd = open(map_name, O_RDONLY)) < 0)
 		return (NULL);
 	map->y = 0;
-	while(get_next_line(fd, &line))
+	while(get_next_line(fd, &line) != 0)
 	{
 		map->tmp = map->x;
 		map->i = 0;
@@ -34,8 +34,8 @@ t_map	*parser(char *map_name)
 		{
 			if (line[map->i] == '2')
 			{
-				map->startX = map->x;
-				map->startY = map->y;
+				map->startx = map->x;
+				map->starty = map->y;
 			}
 			if (line[map->i] == '0' || line[map->i] == '1' || line[map->i] == '2')
 				map->x++;
