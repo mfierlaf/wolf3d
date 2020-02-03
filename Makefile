@@ -15,7 +15,7 @@ NC = \033[0m
 NAME = Wolf3D
 
 SRCS = src/main.c src/key.c src/parsing.c src/tools.c src/bresenham.c \
-src/raycasting.c
+src/raycasting.c src/draw.c
 
 FLAGS = -Wall -Werror -Wextra
 

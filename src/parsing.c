@@ -46,5 +46,7 @@ t_map	*parser(char *map_name)
 		map->h = ft_strjoin_free(map->h, ft_strjoin_free(line, " ", 1), 3);
 		map->y++;
 	}
+	map->ymod = WIN_H / map->y;
+	map->xmod = WIN_L / map->x;
 	return (map);
 }

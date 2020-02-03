@@ -46,6 +46,8 @@ typedef struct 	s_map
 	double 	deltadistx;
 	double 	deltadisty;
 	double	perpwalldist;
+	double	ymod;
+	double	xmod;
 	int		stepx;
 	int 	stepy;
 	int		mapx;
@@ -87,7 +89,7 @@ typedef	struct	s_mlx
 /*
 **		raycasting
 */
-int				raycasting(t_bham *bham, t_map *map, t_mlx *mlx);
+int				raycasting(t_map *map, t_mlx *mlx);
 /*
 **		key.c
 */
@@ -101,4 +103,10 @@ t_map			*parser(char *map_name);
 */
 int				ft_exit(int flag, void *s);
 void			bresenham(t_bham *bham, t_map *map, t_mlx *mlx);
+/*
+**		draw.c
+*/
+void			draw_floor(t_mlx *mlx);
+void			draw_sky(t_mlx *mlx);
+void			draw_wall(int x, t_map *map, t_mlx *mlx);
 #endif

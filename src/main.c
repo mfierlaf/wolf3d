@@ -36,7 +36,9 @@ int			main(int ac, char **av)
 		return (ft_exit(1, mlx));
 	ft_init_mlx(mlx);
 	map = parser(av[1]);
-	raycasting(bham, map, mlx);
+	draw_sky(mlx);
+	draw_floor(mlx);
+	raycasting(map, mlx);
 	mlx_key_hook(mlx->win, key_push, mlx);
 	mlx_loop(mlx->mlx);
 	return (0);
