@@ -22,6 +22,7 @@
 # include <math.h>
 # define WIN_H 1050
 # define WIN_L 1680
+# define W_W 1680
 
 typedef struct 	s_map
 {
@@ -31,7 +32,7 @@ typedef struct 	s_map
 	int		y;
 	int		startx;
 	int		starty;
-	char	*h;
+	char	**h;
 	double 	dirx;
 	double 	diry;
 	double 	planx;
@@ -48,43 +49,39 @@ typedef struct 	s_map
 	double	perpwalldist;
 	double	ymod;
 	double	xmod;
+	double	xpos;
+	double	ypos;
+	double		mapx;
+	double		mapy;
 	int		stepx;
 	int 	stepy;
-	int		mapx;
-	int		mapy;
 	int		hit;
 	int		side;
 	int		lineheight;
 	int		drawstart;
 	int		drawend;
 	int		color;
+	int		starter;
+
 
 }				t_map;
 
-typedef	struct	s_bham
-{
-	int	dx;
-	int	dy;
-	int	err;
-	int	sx;
-	int	sy;
-	int	e2;
-	int	x0;
-	int	x1;
-	int	y0;
-	int	y1;
-}				t_bham;
 typedef	struct	s_mlx
 {
 	void		*mlx;
 	void		*win;
-	void		*img[5];
-	int			*data[5];
+	void		*img;
+	int			*data;
 	int			endian;
 	int			sl;
 	int			bpp;
 	int			i_width;
 	int			i_height;
+	t_map		*map;
+	int			wkey;
+	int			akey;
+	int			skey;
+	int			dkey;
 }				t_mlx;
 /*
 **		raycasting
@@ -93,7 +90,10 @@ int				raycasting(t_map *map, t_mlx *mlx);
 /*
 **		key.c
 */
+int				loop_hook(t_mlx *mlx);
 int				key_push(int key2, t_mlx *mlx);
+int				key_press(int key2, t_mlx *mlx);
+int				key_release(int key2, t_mlx *mlx);
 /*
 **		parsing.c
 */
@@ -102,11 +102,15 @@ t_map			*parser(char *map_name);
 **		tools.c
 */
 int				ft_exit(int flag, void *s);
-void			bresenham(t_bham *bham, t_map *map, t_mlx *mlx);
+void			erase_putback(t_mlx *mlx);
 /*
 **		draw.c
 */
 void			draw_floor(t_mlx *mlx);
 void			draw_sky(t_mlx *mlx);
-void			draw_wall(int x, t_map *map, t_mlx *mlx);
+int				draw_wall(t_map *map, t_mlx *mlx);
+/*
+**		main.c
+*/
+int				wolf_init(t_map *map);
 #endif

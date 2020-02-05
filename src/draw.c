@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tde-brit <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/05 11:05:24 by tde-brit          #+#    #+#             */
+/*   Updated: 2020/02/05 11:05:24 by tde-brit         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/wolf3d.h"
 
 void	draw_sky(t_mlx *mlx)
@@ -11,7 +23,7 @@ void	draw_sky(t_mlx *mlx)
 		 y = 0;
 		 while(y < WIN_L / 2)
 		 {
-			mlx->data[0][x + (y * WIN_H)] = 0xFF0000;
+			mlx->data[x + (y * WIN_H)] = 0x01CAFF;
 			y++;
 		 }
 		 x++;
@@ -29,14 +41,23 @@ void	draw_floor(t_mlx *mlx)
 		 y = WIN_L / 2;
 		 while(y < WIN_L)
 		 {
-			mlx->data[0][x + (y * WIN_H)] = 0x0000FF;
+			mlx->data[x + (y * WIN_H)] = 0x926D27;
 			y++;
 		 }
 		 x++;
 	}
 }
-void	draw_wall(int x, t_map *map, t_mlx *mlx)
+int		draw_wall(t_map *map, t_mlx *mlx)
 {
-	while(--map->drawstart >= map->drawend)
-		mlx->data[0][x + (map->drawstart * WIN_H)] = 0x00FF00;
+	int	i;
+	i = ((WIN_L * WIN_H) / 2);
+	i -= ((map->lineheight / 2) * WIN_L);
+	while (map->lineheight > 0)
+	{
+		mlx->data[i + (int)map->starter] = 0x6D071A;
+		i += WIN_L;
+		map->lineheight--;
+	}
+	map->starter++;
+	return (0);
 }

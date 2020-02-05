@@ -11,16 +11,48 @@
 /* ************************************************************************** */
 
 #include "../header/wolf3d.h"
+static t_map	*parser_part2(char *line, t_map *map)
+{
+	int i;
+	int x;
+	int y;
 
-t_map	*parser(char *map_name)
+	i = 0;
+	y = 0;
+
+	if((map->h = (char **)malloc(sizeof(char *) * map->y + 1)) == NULL)
+		return(NULL);
+	while(line[i])
+	{
+		x = 0;
+		if((map->h[y] = malloc(sizeof(char) * map->x + 1)) == NULL)
+			return(NULL);
+		map->h[y][map->x] = '\0';
+		while(line[i] && line[i] != '\n')
+		{
+			if (line[i] != ' ')
+			{
+				map->h[y][x] = line[i];
+				x++;
+			}
+			i++;
+		}
+		i++;
+		y++;
+	}
+	free(line);
+	return (map);
+}
+t_map			*parser(char *map_name)
 {
 	int fd;
 	t_map *map;
 	char *line;
+	char *tmp;
 
 	if ((map = ft_memalloc(sizeof(t_map))) == NULL)
 	 	ft_exit(1, map);
-	if ((map->h = ft_strnew(0)) == NULL)
+	if ((tmp = ft_strnew(0)) == NULL)
 		ft_exit(1, map);
 	if((fd = open(map_name, O_RDONLY)) < 0)
 		return (NULL);
@@ -43,10 +75,9 @@ t_map	*parser(char *map_name)
 		}
 		if (map->tmp != 0 && map->x != map->tmp)
 			return (NULL);
-		map->h = ft_strjoin_free(map->h, ft_strjoin_free(line, " ", 1), 3);
+		tmp = ft_strjoin_free(tmp, ft_strjoin_free(line, "\n", 1), 3);
 		map->y++;
 	}
-	map->ymod = WIN_H / map->y;
-	map->xmod = WIN_L / map->x;
+	map = parser_part2(tmp, map);
 	return (map);
 }
