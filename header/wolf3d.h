@@ -24,6 +24,15 @@
 # define WIN_L 1680
 # define W_W 1680
 
+typedef struct	s_tex
+{
+	void		*img;
+	int			*data;
+	int			bpp;
+	int			sl;
+	int			endian;
+}				t_tex;
+
 typedef struct 	s_map
 {
 	int		i;
@@ -53,6 +62,8 @@ typedef struct 	s_map
 	double	ypos;
 	double		mapx;
 	double		mapy;
+	double		olddir;
+	double		oldplan;
 	int		stepx;
 	int 	stepy;
 	int		hit;
@@ -77,11 +88,14 @@ typedef	struct	s_mlx
 	int			bpp;
 	int			i_width;
 	int			i_height;
-	t_map		*map;
 	int			wkey;
 	int			akey;
 	int			skey;
 	int			dkey;
+	int			qkey;
+	int			ekey;
+	t_map		*map;
+	t_tex		tex[9];
 }				t_mlx;
 /*
 **		raycasting
@@ -113,4 +127,8 @@ int				draw_wall(t_map *map, t_mlx *mlx);
 **		main.c
 */
 int				wolf_init(t_map *map);
+/*
+**		textures.c
+*/
+void			load_textures(t_mlx *mlx);
 #endif

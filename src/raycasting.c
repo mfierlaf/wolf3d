@@ -104,13 +104,6 @@ int	raycasting(t_map *map, t_mlx *mlx)
 					(double)(1.0 - map->stepy) / 2.0) / map->raydiry;
 		}
 		map->lineheight = (int)(WIN_H / map->perpwalldist);
-//		printf("%d %lf\n", map->lineheight, map->perpwalldist);
-		map->drawstart = ((-map->lineheight) / 2 + WIN_H / 2);
-		if (map->drawstart < 0)
-			map->drawstart = 0;
-		map->drawend = (map->lineheight / 2 + WIN_H / 2);
-		if (map->drawend >= WIN_H)
-			map->drawend = WIN_H - 1;
 		draw_wall(map, mlx);
 		x++;
 	}

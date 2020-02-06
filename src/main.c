@@ -22,10 +22,12 @@ void	ft_init_mlx(t_mlx *mlx)
 	mlx->akey = 0;
 	mlx->skey = 0;
 	mlx->dkey = 0;
+	mlx->qkey = 0;
+	mlx->ekey = 0;
 }
 int			wolf_init(t_map *map)
 {
-	map->dirx = -1.0;
+	map->dirx = 0.25;
 	map->diry = 0.0;
 	map->planx = 0.0;
 	map->plany = 0.66;
@@ -50,12 +52,13 @@ int			main(int ac, char **av)
 	draw_sky(mlx);
 	draw_floor(mlx);
 	wolf_init(mlx->map);
+	load_textures(mlx);
 	raycasting(mlx->map, mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img , 0 , 0);
-	mlx_key_hook(mlx->win, key_push, mlx);
-//	mlx_hook(mlx->win, 2, 0, key_press, mlx);
-//	mlx_hook(mlx->win, 3, 0, key_release, mlx);
-//	mlx_loop_hook(mlx->mlx, loop_hook, mlx);
+//	mlx_key_hook(mlx->win, key_push, mlx);
+	mlx_hook(mlx->win, 2, (1L << 0), key_press, mlx);
+	mlx_hook(mlx->win, 3, (1L << 1), key_release, mlx);
+	mlx_loop_hook(mlx->mlx, loop_hook, mlx);
 	mlx_loop(mlx->mlx);
 	return (0);
 }

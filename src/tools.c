@@ -34,5 +34,7 @@ void	erase_putback(t_mlx *mlx)
 	draw_sky(mlx);
 	draw_floor(mlx);
 	raycasting(mlx->map, mlx);
+	printf("%lf %lf\n", mlx->map->dirx, mlx->map->diry);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	//mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->tex[0].img, 500, 500);
 }

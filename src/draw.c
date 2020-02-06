@@ -50,11 +50,14 @@ void	draw_floor(t_mlx *mlx)
 int		draw_wall(t_map *map, t_mlx *mlx)
 {
 	int	i;
+
 	i = ((WIN_L * WIN_H) / 2);
 	i -= ((map->lineheight / 2) * WIN_L);
+	if (map->starter >= WIN_L)
+		map->starter = 0;
 	while (map->lineheight > 0)
 	{
-		mlx->data[i + (int)map->starter] = 0x6D071A;
+		mlx->data[i + (int)map->starter] = 0x99f900;
 		i += WIN_L;
 		map->lineheight--;
 	}
