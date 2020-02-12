@@ -55,9 +55,17 @@ int		draw_wall(t_map *map, t_mlx *mlx)
 	i -= ((map->lineheight / 2) * WIN_L);
 	if (map->starter >= WIN_L)
 		map->starter = 0;
+	if (map->lineheight > WIN_H)
+	{
+		map->lineheight = WIN_H - 1;
+		map->starter = 0;
+	}
 	while (map->lineheight > 0)
 	{
-		mlx->data[i + (int)map->starter] = 0x99f900;
+		if (map->side == 1)
+			mlx->data[i + (int)map->starter] = 0x99f900;
+		if (map->side == 0)
+			mlx->data[i + (int)map->starter] = 0x0000FF;
 		i += WIN_L;
 		map->lineheight--;
 	}

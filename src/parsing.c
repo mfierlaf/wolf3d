@@ -66,8 +66,8 @@ t_map			*parser(char *map_name)
 		{
 			if (line[map->i] == '2')
 			{
-				map->startx = map->x;
-				map->starty = map->y;
+				map->startx = (double)map->x;
+				map->starty = (double)map->y;
 			}
 			if (line[map->i] == '0' || line[map->i] == '1' || line[map->i] == '2')
 				map->x++;

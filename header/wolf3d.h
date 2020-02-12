@@ -23,6 +23,8 @@
 # define WIN_H 1050
 # define WIN_L 1680
 # define W_W 1680
+# define SPEED 0.05
+# define ROTATE 0.05
 
 typedef struct	s_tex
 {
@@ -39,8 +41,6 @@ typedef struct 	s_map
 	int		tmp;
 	int		x;
 	int		y;
-	int		startx;
-	int		starty;
 	char	**h;
 	double 	dirx;
 	double 	diry;
@@ -60,10 +60,12 @@ typedef struct 	s_map
 	double	xmod;
 	double	xpos;
 	double	ypos;
-	double		mapx;
-	double		mapy;
-	double		olddir;
-	double		oldplan;
+	double	mapx;
+	double	mapy;
+	double	olddir;
+	double	oldplan;
+	double	startx;
+	double	starty;
 	int		stepx;
 	int 	stepy;
 	int		hit;

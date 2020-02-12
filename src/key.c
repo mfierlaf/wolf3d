@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../header/wolf3d.h"
+
 int			loop_hook(t_mlx *mlx)
 {
 	if (mlx->wkey == 1)
@@ -18,35 +19,34 @@ int			loop_hook(t_mlx *mlx)
 		if (mlx->map->h[(int)(mlx->map->ypos + mlx->map->diry * 0.2)][
 		(int)(mlx->map->xpos + mlx->map->dirx * 0.2)] == '0')
 			{
-				mlx->map->ypos += mlx->map->diry * 0.05;
-				mlx->map->xpos += mlx->map->dirx * 0.05;
+				mlx->map->ypos += mlx->map->diry * SPEED;
+				mlx->map->xpos += mlx->map->dirx * SPEED;
 			}
 	}
 	if (mlx->skey == 1)
 	{
 		if (mlx->map->h[(int)(mlx->map->ypos - mlx->map->diry * 0.2)][(int)(mlx->map->xpos)] == '0')
-			mlx->map->ypos -= mlx->map->diry * 0.05;
+			mlx->map->ypos -= mlx->map->diry * SPEED;
 		if (mlx->map->h[(int)(mlx->map->ypos)][(int)(mlx->map->xpos - mlx->map->dirx * 0.2)] == '0')
-			mlx->map->xpos -= mlx->map->dirx * 0.05;
+			mlx->map->xpos -= mlx->map->dirx * SPEED;
 	}
 	if (mlx->dkey == 1)
 	{
 		mlx->map->olddir = mlx->map->dirx;
-		mlx->map->dirx = mlx->map->dirx * cos(-0.05) - mlx->map->diry * sin(-0.05);
-		mlx->map->diry = mlx->map->olddir * sin(-0.05) + mlx->map->olddir * cos(-0.05);
+		mlx->map->dirx = mlx->map->dirx * cos(-ROTATE) - mlx->map->diry * sin(-ROTATE);
+		mlx->map->diry = mlx->map->olddir * sin(-ROTATE) + mlx->map->olddir * cos(-ROTATE);
 		mlx->map->oldplan = mlx->map->planx;
-		mlx->map->planx = mlx->map->planx * cos(-0.05) - mlx->map->plany * sin(-0.05);
-		mlx->map->plany = mlx->map->oldplan * sin(-0.05) + mlx->map->plany * cos(-0.05);
+		mlx->map->planx = mlx->map->planx * cos(-ROTATE) - mlx->map->plany * sin(-ROTATE);
+		mlx->map->plany = mlx->map->oldplan * sin(-ROTATE) + mlx->map->plany * cos(-ROTATE);
 	}
 	if (mlx->akey == 1)
 	{
-
 		mlx->map->olddir = mlx->map->dirx;
-		mlx->map->dirx = mlx->map->dirx * cos(0.05) - mlx->map->diry * sin(0.05);
-		mlx->map->diry = mlx->map->olddir * sin(0.05) + mlx->map->olddir * cos(0.05);
+		mlx->map->dirx = mlx->map->dirx * cos(ROTATE) - mlx->map->diry * sin(ROTATE);
+		mlx->map->diry = mlx->map->olddir * sin(ROTATE) + mlx->map->olddir * cos(ROTATE);
 		mlx->map->oldplan = mlx->map->planx;
-		mlx->map->planx = mlx->map->planx * cos(0.05) - mlx->map->plany * sin(0.05);
-		mlx->map->plany = mlx->map->oldplan * sin(0.05) + mlx->map->plany * cos(0.05);
+		mlx->map->planx = mlx->map->planx * cos(ROTATE) - mlx->map->plany * sin(ROTATE);
+		mlx->map->plany = mlx->map->oldplan * sin(ROTATE) + mlx->map->plany * cos(ROTATE);
 	}
 	erase_putback(mlx);
 	return (0);

@@ -27,7 +27,7 @@ void	ft_init_mlx(t_mlx *mlx)
 }
 int			wolf_init(t_map *map)
 {
-	map->dirx = 0.25;
+	map->dirx = 1.0;
 	map->diry = 0.0;
 	map->planx = 0.0;
 	map->plany = 0.66;
