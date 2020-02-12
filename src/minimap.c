@@ -82,12 +82,10 @@ void minimap(t_map *map, t_mlx *mlx)
 	i = 0;
 	while (i < map->y && map->h[i])
 	{
-		ft_printf("1\n");
 		j = 0;
 		l = 0;
 		while (j < map->x  && map->h[i][j])
 		{
-			ft_printf("2\n");
 			if ((double)i == map->ypos && (double)j == map->xpos)
 				draw_player(h, spacex, l, spacey, mlx);
 			else if (map->h[i][j] == '1')

@@ -100,7 +100,7 @@ typedef	struct	s_mlx
 	t_tex		tex[9];
 }				t_mlx;
 /*
-**		raycasting
+**		raycasting.c
 */
 int				raycasting(t_map *map, t_mlx *mlx);
 /*
@@ -125,6 +125,10 @@ void			erase_putback(t_mlx *mlx);
 void			draw_floor(t_mlx *mlx);
 void			draw_sky(t_mlx *mlx);
 int				draw_wall(t_map *map, t_mlx *mlx);
+/*
+**		minimap.c
+*/
+void			minimap(t_map *map, t_mlx *mlx);
 /*
 **		main.c
 */
