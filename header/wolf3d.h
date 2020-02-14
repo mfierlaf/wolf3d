@@ -23,8 +23,8 @@
 # define WIN_H 1050
 # define WIN_L 1680
 # define W_W 1680
-# define SPEED 0.05
-# define ROTATE 0.05
+# define SPEED 0.2
+# define ROTATE 0.1
 
 typedef struct	s_tex
 {

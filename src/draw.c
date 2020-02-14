@@ -49,23 +49,27 @@ void	draw_floor(t_mlx *mlx)
 }
 int		draw_wall(t_map *map, t_mlx *mlx)
 {
-	int	i;
+	unsigned int	i;
 
 	i = ((WIN_L * WIN_H) / 2);
+	if (map->lineheight > WIN_H)
+	{
+		map->lineheight = WIN_H;
+		map->starter = 0;
+	}
 	i -= ((map->lineheight / 2) * WIN_L);
 	if (map->starter >= WIN_L)
 		map->starter = 0;
-	if (map->lineheight > WIN_H)
-	{
-		map->lineheight = WIN_H - 1;
-		map->starter = 0;
-	}
 	while (map->lineheight > 0)
 	{
-		if (map->side == 1)
-			mlx->data[i + (int)map->starter] = 0x99f900;
-		if (map->side == 0)
-			mlx->data[i + (int)map->starter] = 0x0000FF;
+		if (map->side == 1 && map->raydiry < 0) // North
+			mlx->data[i + map->starter] = 0x99f900;
+		if (map->side == 0 && map->raydirx > 0) // East
+			mlx->data[i + map->starter] = 0x000099;
+		if (map->side == 1 && map->raydiry > 0) // South
+			mlx->data[i + map->starter] = 0x990000;
+		if (map->side == 0 && map->raydirx < 0) // West
+			mlx->data[i + map->starter] = 0xFFFFFF;
 		i += WIN_L;
 		map->lineheight--;
 	}

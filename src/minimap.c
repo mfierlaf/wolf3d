@@ -86,7 +86,7 @@ void minimap(t_map *map, t_mlx *mlx)
 		l = 0;
 		while (j < map->x  && map->h[i][j])
 		{
-			if ((double)i == map->ypos && (double)j == map->xpos)
+			if (i == (int)map->ypos && j == (int)map->xpos)
 				draw_player(h, spacex, l, spacey, mlx);
 			else if (map->h[i][j] == '1')
 				draw_mini_wall(h, spacex, l, spacey, mlx);

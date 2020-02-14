@@ -23,10 +23,10 @@ int	raycasting(t_map *map, t_mlx *mlx)
 		map->camerax = 2.0 * (double)x / (double)W_W - 1.0;
 		map->raydirx = map->dirx + (map->planx * map->camerax);
 		map->raydiry = map->diry + (map->plany * map->camerax);
-		map->deltadistx = fabs(1.0 / map->raydirx);
-		map->deltadisty = fabs(1.0 / map->raydiry);
 		map->mapx = map->xpos;
 		map->mapy = map->ypos;
+		map->deltadistx = fabs(1.0 / map->raydirx);
+		map->deltadisty = fabs(1.0 / map->raydiry);
 		map->hit = 0;
 		if (map->raydirx < 0.0)
 		{
@@ -75,6 +75,8 @@ int	raycasting(t_map *map, t_mlx *mlx)
 			map->perpwalldist = ((double)map->mapy - (double)map->ypos +
 					(double)(1.0 - (double)map->stepy) / 2.0) / map->raydiry;
 		}
+		if (map->perpwalldist < 1.0 || map->perpwalldist == -0.0)
+			map->perpwalldist = 1;
 		map->lineheight = (int)(WIN_H / map->perpwalldist);
 		draw_wall(map, mlx);
 		x++;

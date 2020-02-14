@@ -16,25 +16,23 @@ int			loop_hook(t_mlx *mlx)
 {
 	if (mlx->wkey == 1)
 	{
-		if (mlx->map->h[(int)(mlx->map->ypos + mlx->map->diry * 0.2)][
-		(int)(mlx->map->xpos + mlx->map->dirx * 0.2)] == '0')
-			{
-				mlx->map->ypos += mlx->map->diry * SPEED;
-				mlx->map->xpos += mlx->map->dirx * SPEED;
-			}
+		if (mlx->map->h[(int)(mlx->map->ypos + mlx->map->diry * SPEED)][(int)(mlx->map->xpos)] != '1')
+			mlx->map->ypos += mlx->map->diry * SPEED;
+		if (mlx->map->h[(int)(mlx->map->ypos)][(int)(mlx->map->xpos + mlx->map->dirx * SPEED)] != '1')
+			mlx->map->xpos += mlx->map->dirx * SPEED;
 	}
 	if (mlx->skey == 1)
 	{
-		if (mlx->map->h[(int)(mlx->map->ypos - mlx->map->diry * 0.2)][(int)(mlx->map->xpos)] == '0')
+		if (mlx->map->h[(int)(mlx->map->ypos - mlx->map->diry * SPEED)][(int)(mlx->map->xpos)] != '1')
 			mlx->map->ypos -= mlx->map->diry * SPEED;
-		if (mlx->map->h[(int)(mlx->map->ypos)][(int)(mlx->map->xpos - mlx->map->dirx * 0.2)] == '0')
+		if (mlx->map->h[(int)(mlx->map->ypos)][(int)(mlx->map->xpos - mlx->map->dirx * SPEED)] != '1')
 			mlx->map->xpos -= mlx->map->dirx * SPEED;
 	}
 	if (mlx->dkey == 1)
 	{
 		mlx->map->olddir = mlx->map->dirx;
 		mlx->map->dirx = mlx->map->dirx * cos(-ROTATE) - mlx->map->diry * sin(-ROTATE);
-		mlx->map->diry = mlx->map->olddir * sin(-ROTATE) + mlx->map->olddir * cos(-ROTATE);
+		mlx->map->diry = mlx->map->olddir * sin(-ROTATE) + mlx->map->diry * cos(-ROTATE);
 		mlx->map->oldplan = mlx->map->planx;
 		mlx->map->planx = mlx->map->planx * cos(-ROTATE) - mlx->map->plany * sin(-ROTATE);
 		mlx->map->plany = mlx->map->oldplan * sin(-ROTATE) + mlx->map->plany * cos(-ROTATE);
@@ -43,7 +41,7 @@ int			loop_hook(t_mlx *mlx)
 	{
 		mlx->map->olddir = mlx->map->dirx;
 		mlx->map->dirx = mlx->map->dirx * cos(ROTATE) - mlx->map->diry * sin(ROTATE);
-		mlx->map->diry = mlx->map->olddir * sin(ROTATE) + mlx->map->olddir * cos(ROTATE);
+		mlx->map->diry = mlx->map->olddir * sin(ROTATE) + mlx->map->diry * cos(ROTATE);
 		mlx->map->oldplan = mlx->map->planx;
 		mlx->map->planx = mlx->map->planx * cos(ROTATE) - mlx->map->plany * sin(ROTATE);
 		mlx->map->plany = mlx->map->oldplan * sin(ROTATE) + mlx->map->plany * cos(ROTATE);
