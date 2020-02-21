@@ -11,7 +11,34 @@
 /* ************************************************************************** */
 
 #include "../header/wolf3d.h"
+int	texsync(t_map *map, t_mlx *mlx)
+{
+	int y;
 
+	y = map->drawstart;
+	if (map->side == 0)
+		map->texwallx = map->ypos + map->perpwalldist * map->raydiry;
+	else
+		map->texwallx = map->xpos + map->perpwalldist * map->raydirx;
+	map->texwallx -= floor((map->texwallx));
+	map->texx = (int)(map->texwallx * (double)64);
+	if(map->side == 0 && map->raydirx > 0)
+		map->texx = 64 - map->texx - 1;
+	if(map->side == 1 && map->raydiry < 0)
+		map->texx = 64 - map->texx - 1;
+	map->texstep = 1.0 * 64 / map->lineheight;
+	map->texpos = (map->drawstart - WIN_H / 2 + map->lineheight / 2) *map->texstep;
+	while (y < map->drawend)
+	{
+		map->texy = (int)map->texpos & 63;
+		map->texpos += map->texstep;
+		map->color = mlx->tex[0].data[64 * map->texy + map->texx];
+		if(map->side == 1)
+			map->color = (map->color >> 1) & 8355711;
+		y++;
+	}
+	return (0);
+}
 int	raycasting(t_map *map, t_mlx *mlx)
 {
 	int x;
@@ -78,6 +105,13 @@ int	raycasting(t_map *map, t_mlx *mlx)
 		if (map->perpwalldist < 1.0 || map->perpwalldist == -0.0)
 			map->perpwalldist = 1;
 		map->lineheight = (int)(WIN_H / map->perpwalldist);
+		map->drawstart = -map->lineheight / 2.0 + WIN_H / 2.0;
+		if (map->drawstart < 0)
+			map->drawstart = 0;
+		map->drawend = map->lineheight / 2.0 + WIN_H / 2.0;
+		if (map->drawend >= WIN_H)
+			map->drawend = WIN_H;
+		texsync(map, mlx);
 		draw_wall(map, mlx);
 		x++;
 	}

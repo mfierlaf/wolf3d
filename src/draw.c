@@ -65,7 +65,7 @@ int		draw_wall(t_map *map, t_mlx *mlx)
 		if (map->side == 1 && map->raydiry < 0) // North
 			mlx->data[i + map->starter] = 0x99f900;
 		if (map->side == 0 && map->raydirx > 0) // East
-			mlx->data[i + map->starter] = 0x000099;
+			mlx->data[i + map->starter] = map->color;
 		if (map->side == 1 && map->raydiry > 0) // South
 			mlx->data[i + map->starter] = 0x990000;
 		if (map->side == 0 && map->raydirx < 0) // West
