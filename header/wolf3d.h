@@ -23,8 +23,8 @@
 # define WIN_H 1050
 # define WIN_L 1680
 # define W_W 1680
-# define SPEED 0.2
-# define ROTATE 0.1
+# define SPEED 0.03
+# define ROTATE 0.03
 
 typedef struct	s_tex
 {
@@ -33,9 +33,6 @@ typedef struct	s_tex
 	int			bpp;
 	int			sl;
 	int			endian;
-	int			width;
-	int			height;
-
 }				t_tex;
 
 typedef struct 	s_map
@@ -63,8 +60,8 @@ typedef struct 	s_map
 	double	xmod;
 	double	xpos;
 	double	ypos;
-	double	mapx;
-	double	mapy;
+	int		mapx;
+	int		mapy;
 	double	olddir;
 	double	oldplan;
 	double	startx;
@@ -78,11 +75,6 @@ typedef struct 	s_map
 	int		drawend;
 	int		color;
 	int		starter;
-	int			texx;
-	int			texy;
-	double		texwallx;
-	double		texstep;
-	double		texpos;
 
 
 }				t_map;
@@ -111,7 +103,6 @@ typedef	struct	s_mlx
 **		raycasting.c
 */
 int				raycasting(t_map *map, t_mlx *mlx);
-int				texsync(t_map *map, t_mlx *mlx);
 /*
 **		key.c
 */

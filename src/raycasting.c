@@ -11,87 +11,74 @@
 /* ************************************************************************** */
 
 #include "../header/wolf3d.h"
-int	texsync(t_map *map, t_mlx *mlx)
-{
-	int y;
 
-	y = map->drawstart;
-	if (map->side == 0)
-		map->texwallx = map->ypos + map->perpwalldist * map->raydiry;
-	else
-		map->texwallx = map->xpos + map->perpwalldist * map->raydirx;
-	map->texwallx -= floor((map->texwallx));
-	map->texx = (int)(map->texwallx * (double)64);
-	if(map->side == 0 && map->raydirx > 0)
-		map->texx = 64 - map->texx - 1;
-	if(map->side == 1 && map->raydiry < 0)
-		map->texx = 64 - map->texx - 1;
-	map->texstep = 1.0 * 64 / map->lineheight;
-	map->texpos = (map->drawstart - WIN_H / 2 + map->lineheight / 2) *map->texstep;
-	while (y < map->drawend)
+static void	raydir(t_map *map)
+{
+	if (map->raydirx < 0.0)
 	{
-		map->texy = (int)map->texpos & 63;
-		map->texpos += map->texstep;
-		map->color = mlx->tex[0].data[64 * map->texy + map->texx];
-		if(map->side == 1)
-			map->color = (map->color >> 1) & 8355711;
-		y++;
+		map->stepx = -1;
+		map->sidex = (map->xpos - (double)map->mapx) * map->deltadistx;
 	}
-	return (0);
+	else
+	{
+		map->stepx = 1;
+		map->sidex = ((double)map->mapx + 1.0 - map->xpos) * map->deltadistx;
+	}
+	if (map->raydiry < 0.0)
+	{
+		map->stepy = -1;
+		map->sidey = (map->ypos - (double)map->mapy) * map->deltadisty;
+	}
+	else
+	{
+		map->stepy = 1;
+		map->sidey = ((double)map->mapy + 1.0 - map->ypos) * map->deltadisty;
+	}
 }
-int	raycasting(t_map *map, t_mlx *mlx)
+
+static void	init(t_map *map, int x)
+{
+	map->camerax = 2.0 * (double)x / (double)W_W - 1.0;
+	map->raydirx = map->dirx + (map->planx * map->camerax);
+	map->raydiry = map->diry + (map->plany * map->camerax);
+	map->mapx = (int)map->xpos;
+	map->mapy = (int)map->ypos;
+	map->deltadistx = fabs(1.0 / map->raydirx);
+	map->deltadisty = fabs(1.0 / map->raydiry);
+	map->hit = 0;
+}
+
+static void	hit(t_map *map)
+{
+	while (map->hit == 0)
+	{
+		if (map->sidex < map->sidey)
+		{
+			map->sidex += map->deltadistx;
+			map->mapx += map->stepx;
+			map->side = 0;
+		}
+		else
+		{
+			map->sidey += map->deltadisty;
+			map->mapy += map->stepy;
+			map->side = 1;
+		}
+		if (map->h[(int)map->mapy][(int)map->mapx] == '1')
+			map->hit = 1;
+	}
+}
+
+int			raycasting(t_map *map, t_mlx *mlx)
 {
 	int x;
 
 	x = 0;
-
 	while (x < W_W)
 	{
-		map->camerax = 2.0 * (double)x / (double)W_W - 1.0;
-		map->raydirx = map->dirx + (map->planx * map->camerax);
-		map->raydiry = map->diry + (map->plany * map->camerax);
-		map->mapx = map->xpos;
-		map->mapy = map->ypos;
-		map->deltadistx = fabs(1.0 / map->raydirx);
-		map->deltadisty = fabs(1.0 / map->raydiry);
-		map->hit = 0;
-		if (map->raydirx < 0.0)
-		{
-			map->stepx = -1;
-			map->sidex = (map->xpos - map->mapx) * map->deltadistx;
-		}
-		else
-		{
-			map->stepx = 1;
-			map->sidex = (map->mapx + 1.0 - map->xpos) * map->deltadistx;
-		}
-		if (map->raydiry < 0.0)
-		{
-			map->stepy = -1;
-			map->sidey = (map->ypos - map->mapy) * map->deltadisty;
-		}
-		else
-		{
-			map->stepy = 1;
-			map->sidey = (map->mapy + 1.0 - map->ypos) * map->deltadisty;
-		}
-		while (map->hit == 0)
-		{
-			if (map->sidex < map->sidey)
-			{
-				map->sidex += map->deltadistx;
-				map->mapx += map->stepx;
-				map->side = 0;
-			}
-			else
-			{
-				map->sidey += map->deltadisty;
-				map->mapy += map->stepy;
-				map->side = 1;
-			}
-			if (map->h[(int)map->mapy][(int)map->mapx] == '1')
-				map->hit = 1;
-		}
+		init(map, x);
+		raydir(map);
+		hit(map);
 		if (map->side == 0)
 		{
 			map->perpwalldist = ((double)map->mapx - (double)map->xpos +
@@ -105,13 +92,6 @@ int	raycasting(t_map *map, t_mlx *mlx)
 		if (map->perpwalldist < 1.0 || map->perpwalldist == -0.0)
 			map->perpwalldist = 1;
 		map->lineheight = (int)(WIN_H / map->perpwalldist);
-		map->drawstart = -map->lineheight / 2.0 + WIN_H / 2.0;
-		if (map->drawstart < 0)
-			map->drawstart = 0;
-		map->drawend = map->lineheight / 2.0 + WIN_H / 2.0;
-		if (map->drawend >= WIN_H)
-			map->drawend = WIN_H;
-		texsync(map, mlx);
 		draw_wall(map, mlx);
 		x++;
 	}

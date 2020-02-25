@@ -12,16 +12,16 @@
 
 #include "../header/wolf3d.h"
 
-static	void	draw_player(int h, int spacex, int l, int spacey, t_mlx *mlx)
+static	void	draw_player(int h, int l, t_mlx *mlx, t_map *map)
 {
 	int tmp;
 	int tmph;
 
 	tmph = h;
-	while (tmph < (h + spacey))
+	while (tmph < (h + ((WIN_H / 5) / (map->y))))
 	{
 		tmp = l;
-		while (tmp < l + spacex)
+		while (tmp < l + ((WIN_L / 5) / (map->x)))
 		{
 			mlx->data[tmph * WIN_L + tmp] = 0x0000FF;
 			tmp++;
@@ -30,16 +30,16 @@ static	void	draw_player(int h, int spacex, int l, int spacey, t_mlx *mlx)
 	}
 }
 
-static void	draw_mini_wall(int h, int spacex, int l, int spacey, t_mlx *mlx)
+static void		draw_mini_wall(int h, int l, t_mlx *mlx, t_map *map)
 {
 	int tmp;
 	int tmph;
 
 	tmph = h;
-	while (tmph < (h + spacey))
+	while (tmph < (h + ((WIN_H / 5) / (map->y))))
 	{
 		tmp = l;
-		while (tmp < l + spacex)
+		while (tmp < l + ((WIN_L / 5) / (map->x)))
 		{
 			mlx->data[tmph * WIN_L + tmp] = 0x6D071A;
 			tmp++;
@@ -48,16 +48,16 @@ static void	draw_mini_wall(int h, int spacex, int l, int spacey, t_mlx *mlx)
 	}
 }
 
-static void	draw_mini_floor(int h, int spacex, int l, int spacey, t_mlx *mlx)
+static void		draw_mini_floor(int h, int l, t_mlx *mlx, t_map *map)
 {
 	int tmp;
 	int tmph;
 
 	tmph = h;
-	while (tmph < h + spacey)
+	while (tmph < h + ((WIN_H / 5) / (map->y)))
 	{
 		tmp = l;
-		while (tmp < l + spacex)
+		while (tmp < l + ((WIN_L / 5) / (map->x)))
 		{
 			mlx->data[tmph * WIN_L + tmp] = 0xFFFFFF;
 			tmp++;
@@ -66,17 +66,13 @@ static void	draw_mini_floor(int h, int spacex, int l, int spacey, t_mlx *mlx)
 	}
 }
 
-void minimap(t_map *map, t_mlx *mlx)
+void			minimap(t_map *map, t_mlx *mlx)
 {
 	int h;
 	int l;
-	int spacex;
-	int spacey;
 	int i;
 	int j;
 
-	spacex = ((WIN_L / 5) / (map->x));
-	spacey = ((WIN_H / 5) / (map->y));
 	h = 0;
 	l = 0;
 	i = 0;
@@ -84,18 +80,17 @@ void minimap(t_map *map, t_mlx *mlx)
 	{
 		j = 0;
 		l = 0;
-		while (j < map->x  && map->h[i][j])
+		while (j++ < map->x && map->h[i][j])
 		{
 			if (i == (int)map->ypos && j == (int)map->xpos)
-				draw_player(h, spacex, l, spacey, mlx);
+				draw_player(h, l, mlx, map);
 			else if (map->h[i][j] == '1')
-				draw_mini_wall(h, spacex, l, spacey, mlx);
+				draw_mini_wall(h, l, mlx, map);
 			else
-				draw_mini_floor(h, spacex, l, spacey, mlx);
-			j++;
-			l += spacex;
+				draw_mini_floor(h, l, mlx, map);
+			l += ((WIN_L / 5) / (map->x));
 		}
 		i++;
-		h += spacey;
+		h += ((WIN_H / 5) / (map->y));
 	}
 }

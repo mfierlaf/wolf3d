@@ -14,7 +14,7 @@
 
 int		ft_exit(int flag, void *s)
 {
-	if(flag == 1)
+	if (flag == 1)
 	{
 		ft_printf("Coudn't malloc a structure\n");
 		free(s);
@@ -31,7 +31,5 @@ void	erase_putback(t_mlx *mlx)
 	draw_floor(mlx);
 	raycasting(mlx->map, mlx);
 	minimap(mlx->map, mlx);
-//	printf("%lf %lf\n", mlx->map->dirx, mlx->map->diry);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-	//mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->tex[0].img, 500, 500);
 }

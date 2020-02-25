@@ -11,7 +11,13 @@
 /* ************************************************************************** */
 
 #include "../header/wolf3d.h"
-static t_map	*parser_part2(char *line, t_map *map)
+
+//static char		*bouclegetnextline(char *line, char *tmp, t_map *map)
+//{
+
+//}
+
+static t_map	*boucleline(char *line, t_map *map)
 {
 	int i;
 	int x;
@@ -19,16 +25,13 @@ static t_map	*parser_part2(char *line, t_map *map)
 
 	i = 0;
 	y = 0;
-
-	if((map->h = (char **)malloc(sizeof(char *) * map->y + 1)) == NULL)
-		return(NULL);
-	while(line[i])
+	while (line[i])
 	{
 		x = 0;
-		if((map->h[y] = malloc(sizeof(char) * map->x + 1)) == NULL)
-			return(NULL);
+		if ((map->h[y] = malloc(sizeof(char) * map->x + 1)) == NULL)
+			return (NULL);
 		map->h[y][map->x] = '\0';
-		while(line[i] && line[i] != '\n')
+		while (line[i] && line[i] != '\n')
 		{
 			if (line[i] != ' ')
 			{
@@ -40,24 +43,33 @@ static t_map	*parser_part2(char *line, t_map *map)
 		i++;
 		y++;
 	}
+	return (map);
+}
+
+static t_map	*parser_part2(char *line, t_map *map)
+{
+	if ((map->h = (char **)malloc(sizeof(char *) * map->y + 1)) == NULL)
+		return (NULL);
+	map = boucleline(line, map);
 	free(line);
 	return (map);
 }
+
 t_map			*parser(char *map_name)
 {
-	int fd;
-	t_map *map;
-	char *line;
-	char *tmp;
+	int		fd;
+	t_map	*map;
+	char	*line;
+	char	*tmp;
 
+	if ((fd = open(map_name, O_RDONLY)) < 0)
+		return (NULL);
 	if ((map = ft_memalloc(sizeof(t_map))) == NULL)
-	 	ft_exit(1, map);
+		ft_exit(1, map);
 	if ((tmp = ft_strnew(0)) == NULL)
 		ft_exit(1, map);
-	if((fd = open(map_name, O_RDONLY)) < 0)
-		return (NULL);
 	map->y = 0;
-	while(get_next_line(fd, &line) != 0)
+	while (get_next_line(fd, &line) != 0)
 	{
 		map->tmp = map->x;
 		map->i = 0;
@@ -69,7 +81,8 @@ t_map			*parser(char *map_name)
 				map->startx = (double)map->x;
 				map->starty = (double)map->y;
 			}
-			if (line[map->i] == '0' || line[map->i] == '1' || line[map->i] == '2')
+			if (line[map->i] == '0' || line[map->i] == '1' ||
+			line[map->i] == '2')
 				map->x++;
 			map->i++;
 		}

@@ -67,26 +67,26 @@ int			key_press(int key2, t_mlx *mlx)
 		free(mlx);
 		exit(-1);
 	}
-	if (key2 == W_KEY || key2 == UP_KEY)
+	if (key2 == W_KEY)
 		mlx->wkey = 1;
-	if (key2 == A_KEY || key2 == LEFT_KEY)
+	if (key2 == A_KEY)
 		mlx->akey = 1;
-	if (key2 == S_KEY || key2 == DOWN_KEY)
+	if (key2 == S_KEY)
 		mlx->skey = 1;
-	if (key2 == D_KEY || key2 == RIGHT_KEY)
+	if (key2 == D_KEY)
 		mlx->dkey = 1;
 	return (0);
 }
 
 int			key_release(int key2, t_mlx *mlx)
 {
-	if (key2 == W_KEY || key2 == UP_KEY)
+	if (key2 == W_KEY)
 		mlx->wkey = 0;
-	if (key2 == A_KEY || key2 == LEFT_KEY)
+	if (key2 == A_KEY)
 		mlx->akey = 0;
-	if (key2 == S_KEY || key2 == DOWN_KEY)
+	if (key2 == S_KEY)
 		mlx->skey = 0;
-	if (key2 == D_KEY || key2 == RIGHT_KEY)
+	if (key2 == D_KEY)
 		mlx->dkey = 0;
 	return (0);
 }
