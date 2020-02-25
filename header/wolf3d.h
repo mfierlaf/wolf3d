@@ -35,26 +35,26 @@ typedef struct	s_tex
 	int			endian;
 }				t_tex;
 
-typedef struct 	s_map
+typedef struct	s_map
 {
 	int		i;
 	int		tmp;
 	int		x;
 	int		y;
 	char	**h;
-	double 	dirx;
-	double 	diry;
-	double 	planx;
-	double 	plany;
-	double 	time;
-	double 	oldtime;
-	double 	camerax;
-	double 	raydirx;
-	double 	raydiry;
-	double 	sidex;
-	double 	sidey;
-	double 	deltadistx;
-	double 	deltadisty;
+	double	dirx;
+	double	diry;
+	double	planx;
+	double	plany;
+	double	time;
+	double	oldtime;
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
+	double	sidex;
+	double	sidey;
+	double	deltadistx;
+	double	deltadisty;
 	double	perpwalldist;
 	double	ymod;
 	double	xmod;
@@ -67,7 +67,7 @@ typedef struct 	s_map
 	double	startx;
 	double	starty;
 	int		stepx;
-	int 	stepy;
+	int		stepy;
 	int		hit;
 	int		side;
 	int		lineheight;
@@ -75,8 +75,6 @@ typedef struct 	s_map
 	int		drawend;
 	int		color;
 	int		starter;
-
-
 }				t_map;
 
 typedef	struct	s_mlx
@@ -104,9 +102,12 @@ typedef	struct	s_mlx
 */
 int				raycasting(t_map *map, t_mlx *mlx);
 /*
-**		key.c
+**		move.c
 */
 int				loop_hook(t_mlx *mlx);
+/*
+**		key.c
+*/
 int				key_push(int key2, t_mlx *mlx);
 int				key_press(int key2, t_mlx *mlx);
 int				key_release(int key2, t_mlx *mlx);

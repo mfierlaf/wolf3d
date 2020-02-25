@@ -12,10 +12,27 @@
 
 #include "../header/wolf3d.h"
 
-//static char		*bouclegetnextline(char *line, char *tmp, t_map *map)
-//{
-
-//}
+static t_map	*bouclegetnextline(char *line, t_map *map)
+{
+	map->tmp = map->x;
+	map->i = 0;
+	map->x = 0;
+	while (line[map->i])
+	{
+		if (line[map->i] == '2')
+		{
+			map->startx = (double)map->x;
+			map->starty = (double)map->y;
+		}
+		if (line[map->i] == '0' || line[map->i] == '1' ||
+		line[map->i] == '2')
+			map->x++;
+		map->i++;
+	}
+	if (map->tmp != 0 && map->x != map->tmp)
+		return (NULL);
+	return (map);
+}
 
 static t_map	*boucleline(char *line, t_map *map)
 {
@@ -71,23 +88,7 @@ t_map			*parser(char *map_name)
 	map->y = 0;
 	while (get_next_line(fd, &line) != 0)
 	{
-		map->tmp = map->x;
-		map->i = 0;
-		map->x = 0;
-		while (line[map->i])
-		{
-			if (line[map->i] == '2')
-			{
-				map->startx = (double)map->x;
-				map->starty = (double)map->y;
-			}
-			if (line[map->i] == '0' || line[map->i] == '1' ||
-			line[map->i] == '2')
-				map->x++;
-			map->i++;
-		}
-		if (map->tmp != 0 && map->x != map->tmp)
-			return (NULL);
+		map = bouclegetnextline(line, map);
 		tmp = ft_strjoin_free(tmp, ft_strjoin_free(line, "\n", 1), 3);
 		map->y++;
 	}
