@@ -9,31 +9,50 @@
 #    Updated: 2019/11/12 12:04:43 by tde-brit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-GREEN = \033[0;32m
-NC = \033[0m
 
 NAME = Wolf3D
+FLAGS = -Wall -Wextra -Werror -O3
 
-SRCS = src/main.c src/key.c src/parsing.c src/tools.c src/textures.c\
-src/raycasting.c src/draw.c src/minimap.c src/move.c
+MLX_DIR = ./minilibx_macos
+MLX = -L$(MLX_DIR) -lmlx -framework OpenGL -framework Appkit -O3
 
-FLAGS = -Wall -Werror -Wextra
+INCL = header/
+LIBFT_DIR = libft/
 
-all: $(NAME)
+SRCS_DIR = ./srcs/
+SRCS =	main.c key.c parsing.c tools.c textures.c\
+		raycasting.c draw.c minimap.c move.c
 
-$(NAME):
-	@make re -C ./libft
-	@echo "${GREEN}Libft Done ✓${NC}"
-	@make clean
-	@gcc $(FLAGS) -o $(NAME) $(SRCS) -L libft/ -lft  -L ./minilibx_macos \
-	-lmlx -framework OpenGL -framework AppKit
-	@echo "${GREEN}Compilation Done ✓${NC}"
+FILES = $(addprefix $(SRCS_DIR),$(SRCS))
+OBJS_DIR = ./objs/
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
-clean:
-	@make clean -C ./libft
+all : $(NAME)
 
-fclean: clean
-	@rm -f $(NAME)
-	@make fclean -C ./libft
+$(NAME) : $(OBJS)
+	@echo "Compiling libft"
+	@make -C $(LIBFT_DIR)
+	@echo "Compiling minilibx"
+	@make -C $(MLX_DIR)
+	@echo "Creating binary file."
+	@gcc $(FLAGS) -L$(LIBFT_DIR) -lft $(MLX) $(OBJS) -o $(NAME)
+	@echo "Cleaning libft"
 
-re: fclean all
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+	@echo "Compiling $@"
+	@mkdir -p $(dir $@) && gcc $(FLAGS) -c $< -o $@
+
+clean :
+	@echo "Removing .o files."
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(MLX_DIR)
+	@rm -rf $(OBJS_DIR)
+
+fclean : clean
+	@echo "Removing binary file."
+	@make fclean -C $(LIBFT_DIR)
+	@rm -rf $(NAME)
+
+re : fclean all
+
+.PHONY : all clean fclean re

@@ -12,7 +12,7 @@
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
-# include "../libft/libft.h"
+# include "../libft/incl/libft.h"
 # include "../minilibx_macos/mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
