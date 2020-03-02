@@ -41,7 +41,8 @@ void	free_map(t_map *map)
 	int i;
 
 	i = 0;
-	if (map->data != NULL) {
+	if (map->data != NULL)
+	{
 		while (i < map->y)
 			free(map->data[i++]);
 		free(map->data);
