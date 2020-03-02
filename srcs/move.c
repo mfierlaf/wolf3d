@@ -50,19 +50,19 @@ int				loop_hook(t_mlx *mlx)
 {
 	if (mlx->wkey == 1)
 	{
-		if (mlx->map->h[(int)(mlx->map->ypos + mlx->map->diry * SPEED)]
+		if (mlx->map->data[(int)(mlx->map->ypos + mlx->map->diry * SPEED)]
 		[(int)(mlx->map->xpos)] != '1')
 			mlx->map->ypos += mlx->map->diry * SPEED;
-		if (mlx->map->h[(int)(mlx->map->ypos)]
+		if (mlx->map->data[(int)(mlx->map->ypos)]
 		[(int)(mlx->map->xpos + mlx->map->dirx * SPEED)] != '1')
 			mlx->map->xpos += mlx->map->dirx * SPEED;
 	}
 	if (mlx->skey == 1)
 	{
-		if (mlx->map->h[(int)(mlx->map->ypos - mlx->map->diry * SPEED)]
+		if (mlx->map->data[(int)(mlx->map->ypos - mlx->map->diry * SPEED)]
 		[(int)(mlx->map->xpos)] != '1')
 			mlx->map->ypos -= mlx->map->diry * SPEED;
-		if (mlx->map->h[(int)(mlx->map->ypos)]
+		if (mlx->map->data[(int)(mlx->map->ypos)]
 		[(int)(mlx->map->xpos - mlx->map->dirx * SPEED)] != '1')
 			mlx->map->xpos -= mlx->map->dirx * SPEED;
 	}

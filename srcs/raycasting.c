@@ -64,7 +64,7 @@ static void	hit(t_map *map)
 			map->mapy += map->stepy;
 			map->side = 1;
 		}
-		if (map->h[(int)map->mapy][(int)map->mapx] == '1')
+		if (map->data[(int)map->mapy][(int)map->mapx] == '1')
 			map->hit = 1;
 	}
 }

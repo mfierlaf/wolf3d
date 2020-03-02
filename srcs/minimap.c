@@ -76,15 +76,15 @@ void			minimap(t_map *map, t_mlx *mlx)
 	h = 0;
 	l = 0;
 	i = 0;
-	while (i < map->y && map->h[i])
+	while (i < map->y && map->data[i])
 	{
-		j = 0;
+		j = -1;
 		l = 0;
-		while (j++ < map->x && map->h[i][j])
+		while (++j < map->x && map->data[i][j])
 		{
 			if (i == (int)map->ypos && j == (int)map->xpos)
 				draw_player(h, l, mlx, map);
-			else if (map->h[i][j] == '1')
+			else if (map->data[i][j] == '1')
 				draw_mini_wall(h, l, mlx, map);
 			else
 				draw_mini_floor(h, l, mlx, map);

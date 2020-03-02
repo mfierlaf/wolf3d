@@ -12,23 +12,10 @@
 
 #include "../header/wolf3d.h"
 
-int				key_push(int key2, t_mlx *mlx)
-{
-	if (key2 == ESC_KEY)
-	{
-		free(mlx);
-		exit(-1);
-	}
-	return (0);
-}
-
 int				key_press(int key2, t_mlx *mlx)
 {
 	if (key2 == ESC_KEY)
-	{
-		free(mlx);
-		exit(-1);
-	}
+		exit_wolf(mlx);
 	if (key2 == UP_KEY || key2 == W_KEY)
 		mlx->wkey = 1;
 	if (key2 == LEFT_KEY || key2 == A_KEY)

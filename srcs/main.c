@@ -52,17 +52,14 @@ int		main(int ac, char **av)
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (ft_exit(1, mlx));
 	ft_init_mlx(mlx);
-	if ((mlx->map = parser(av[1])) == NULL)
-	{
-		ft_printf("ce fichier n'existe pas ou est inaccessible\n");
-		return (ft_exit(1, mlx));
-	}
+	parser(av[1], mlx);
 	draw_sky(mlx);
 	draw_floor(mlx);
 	wolf_init(mlx->map);
 	load_textures(mlx);
 	raycasting(mlx->map, mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	mlx_hook(mlx->win, 17, 0, exit_wolf, mlx);
 	mlx_hook(mlx->win, 2, (1L << 0), key_press, mlx);
 	mlx_hook(mlx->win, 3, (1L << 1), key_release, mlx);
 	mlx_loop_hook(mlx->mlx, loop_hook, mlx);

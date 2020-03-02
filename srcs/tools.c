@@ -12,15 +12,48 @@
 
 #include "../header/wolf3d.h"
 
-int		ft_exit(int flag, void *s)
+int		ft_exit(int flag, t_mlx *mlx)
 {
-	if (flag == 1)
+	if (flag == 0)
 	{
 		ft_printf("Coudn't malloc a structure\n");
-		free(s);
-		s = NULL;
-		exit(-1);
+		free(mlx);
+		exit(1);
 	}
+	else if (flag == 1)
+	{
+		perror("Couldn't open map ");
+		free(mlx);
+		exit(1);
+	}
+	else if (flag == 2)
+	{
+		ft_printf("Invalid map\n");
+		free_map(mlx->map);
+		free(mlx);
+		exit(1);
+	}
+	return (0);
+}
+
+void	free_map(t_map *map)
+{
+	int i;
+
+	i = 0;
+	if (map->data != NULL) {
+		while (i < map->y)
+			free(map->data[i++]);
+		free(map->data);
+	}
+	free(map);
+}
+
+int		exit_wolf(t_mlx *mlx)
+{
+	free_map(mlx->map);
+	free(mlx);
+	exit(0);
 	return (0);
 }
 

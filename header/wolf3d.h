@@ -41,7 +41,7 @@ typedef struct	s_map
 	int		tmp;
 	int		x;
 	int		y;
-	char	**h;
+	char	**data;
 	double	dirx;
 	double	diry;
 	double	planx;
@@ -108,17 +108,18 @@ int				loop_hook(t_mlx *mlx);
 /*
 **		key.c
 */
-int				key_push(int key2, t_mlx *mlx);
 int				key_press(int key2, t_mlx *mlx);
 int				key_release(int key2, t_mlx *mlx);
 /*
 **		parsing.c
 */
-t_map			*parser(char *map_name);
+void			parser(char *map_name, t_mlx *mlx);
 /*
 **		tools.c
 */
-int				ft_exit(int flag, void *s);
+int				ft_exit(int flag, t_mlx *mlx);
+void			free_map(t_map *map);
+int             exit_wolf(t_mlx *mlx);
 void			erase_putback(t_mlx *mlx);
 /*
 **		draw.c

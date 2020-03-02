@@ -12,6 +12,27 @@
 
 #include "../header/wolf3d.h"
 
+static int		verify(t_map *map)
+{
+	int i;
+
+	i = 0;
+	while (i < map->x)
+	{
+		if (map->data[0][i] == 48 || map->data[map->y - 1][i] == 48)
+			return (0);
+		i++;
+	}
+	i = 0;
+	while (i < map->y)
+	{
+		if (map->data[i][0] == 48 || map->data[i][map->x - 1] == 48)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static t_map	*bouclegetnextline(char *line, t_map *map)
 {
 	map->tmp = map->x;
@@ -45,14 +66,14 @@ static t_map	*boucleline(char *line, t_map *map)
 	while (line[i])
 	{
 		x = 0;
-		if ((map->h[y] = malloc(sizeof(char) * map->x + 1)) == NULL)
+		if ((map->data[y] = malloc(sizeof(char) * map->x + 1)) == NULL)
 			return (NULL);
-		map->h[y][map->x] = '\0';
+		map->data[y][map->x] = '\0';
 		while (line[i] && line[i] != '\n')
 		{
 			if (line[i] != ' ')
 			{
-				map->h[y][x] = line[i];
+				map->data[y][x] = line[i];
 				x++;
 			}
 			i++;
@@ -65,26 +86,27 @@ static t_map	*boucleline(char *line, t_map *map)
 
 static t_map	*parser_part2(char *line, t_map *map)
 {
-	if ((map->h = (char **)malloc(sizeof(char *) * map->y + 1)) == NULL)
+	if ((map->data = (char **)malloc(sizeof(char *) * map->y + 1)) == NULL)
 		return (NULL);
 	map = boucleline(line, map);
 	free(line);
 	return (map);
 }
 
-t_map			*parser(char *map_name)
+void			parser(char *map_name, t_mlx *mlx)
 {
 	int		fd;
 	t_map	*map;
 	char	*line;
 	char	*tmp;
 
-	if ((fd = open(map_name, O_RDONLY)) < 0)
-		return (NULL);
 	if ((map = ft_memalloc(sizeof(t_map))) == NULL)
-		ft_exit(1, map);
+		ft_exit(1, mlx);
+	map->data = NULL;
 	if ((tmp = ft_strnew(0)) == NULL)
-		ft_exit(1, map);
+		ft_exit(0, mlx);
+	if ((fd = open(map_name, O_RDONLY)) < 0 || read(fd, tmp, 0) < 0)
+		ft_exit(1, mlx);
 	map->y = 0;
 	while (get_next_line(fd, &line) != 0)
 	{
@@ -93,5 +115,8 @@ t_map			*parser(char *map_name)
 		map->y++;
 	}
 	map = parser_part2(tmp, map);
-	return (map);
+	close(fd);
+	mlx->map = map;
+	if (verify(map) == 0)
+		ft_exit(2, mlx);
 }
