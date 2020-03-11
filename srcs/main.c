@@ -12,8 +12,36 @@
 
 #include "../header/wolf3d.h"
 
+void get_text(t_mlx *mlx)
+{
+	void	*img;
+	int		a;
+
+	a = 64;
+	img = mlx_xpm_file_to_image(mlx->mlx, "pics/eagle.xpm", &a, &a);
+	mlx->tex->north =
+	(int*)mlx_get_data_addr(img, &mlx->bpp, &mlx->sl, &mlx->endian);
+	ft_printf("1\n");
+	img = mlx_xpm_file_to_image(mlx->mlx, "pics/wood.xpm", &a, &a);
+	mlx->tex->south =
+	(int*)mlx_get_data_addr(img, &mlx->bpp, &mlx->sl, &mlx->endian);
+	ft_printf("2\n");
+	img = mlx_xpm_file_to_image(mlx->mlx, "pics/colorstone.xpm", &a, &a);
+	mlx->tex->west =
+	(int*)mlx_get_data_addr(img, &mlx->bpp, &mlx->sl, &mlx->endian);
+	ft_printf("3\n");
+	img = mlx_xpm_file_to_image(mlx->mlx, "pics/mossy.xpm", &a, &a);
+	mlx->tex->east =
+	(int*)mlx_get_data_addr(img, &mlx->bpp, &mlx->sl, &mlx->endian);
+	ft_printf("4\n");
+}
+
 void	ft_init_mlx(t_mlx *mlx)
 {
+	t_tex *tex;
+
+	tex = ft_memalloc(sizeof(t_tex));
+	mlx->tex = tex;
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, WIN_L,
 			WIN_H, "Wolf3D");
@@ -56,7 +84,8 @@ int		main(int ac, char **av)
 	draw_sky(mlx);
 	draw_floor(mlx);
 	wolf_init(mlx->map);
-	load_textures(mlx);
+	get_text(mlx);
+	//load_textures(mlx);
 	raycasting(mlx->map, mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	mlx_hook(mlx->win, 17, 0, exit_wolf, mlx);

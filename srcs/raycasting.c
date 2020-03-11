@@ -92,7 +92,52 @@ int			raycasting(t_map *map, t_mlx *mlx)
 		if (map->perpwalldist < 1.0 || map->perpwalldist == -0.0)
 			map->perpwalldist = 1;
 		map->lineheight = (int)(WIN_H / map->perpwalldist);
-		draw_wall(map, mlx);
+		//draw_wall(map, mlx);
+		//test
+
+ 		double wallX;
+		map->drawstart = -map->lineheight / 2 + WIN_H / 2;
+        if (map->drawstart < 0)
+            map->drawstart = 0;
+		map->drawend = map->lineheight / 2 + WIN_H / 2;
+        if (map->drawend >= WIN_H)
+            map->drawend = WIN_H - 1;
+ 		if (map->side == 0)
+			wallX = map->ypos + map->perpwalldist * map->raydiry;
+ 		else
+			wallX = map->xpos + map->perpwalldist * map->raydirx;
+ 		wallX -= floor((wallX));
+
+
+	 	int texX = (int)(wallX * (double)TEXWIDTH);
+ 		if(map->side == 0 && map->raydirx > 0)
+			texX = TEXWIDTH - texX - 1;
+ 		if(map->side == 1 && map->raydiry < 0)
+			texX = TEXWIDTH - texX - 1;
+		double step = 1.0 * TEXHEIGHT / map->lineheight;
+	 	double texPos = (map->drawstart - WIN_H / 2 + map->lineheight / 2) * step;
+	 	for(int y = map->drawstart; y < map->drawend; y++)
+	 	{
+	   		int texY = (int)texPos & (TEXHEIGHT - 1);
+	   		texPos += step;
+			if (map->side == 1)
+			{
+				if (map->raydiry >= 0)
+	   				map->color = mlx->tex->west[(TEXHEIGHT * texY) + texX];
+				else
+					map->color = mlx->tex->east[(TEXHEIGHT * texY) + texX];
+			}
+			else
+			{
+				if (map->raydirx >= 0)
+					map->color = mlx->tex->north[(TEXHEIGHT * texY) + texX];
+				else
+					map->color = mlx->tex->south[(TEXHEIGHT * texY) + texX];
+			}
+	   		//if(side == 1) color = (color >> 1) & 8355711;
+	   		mlx->data[x + (y * WIN_L)] = map->color;
+	 	}
+		//fin test
 		x++;
 	}
 	return (1);

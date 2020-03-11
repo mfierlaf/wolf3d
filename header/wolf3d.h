@@ -25,6 +25,8 @@
 # define W_W 1680
 # define SPEED 0.03
 # define ROTATE 0.03
+# define TEXHEIGHT 64
+# define TEXWIDTH 64
 
 typedef struct	s_tex
 {
@@ -33,6 +35,10 @@ typedef struct	s_tex
 	int			bpp;
 	int			sl;
 	int			endian;
+	int			*north;
+	int			*south;
+	int			*west;
+	int			*east;
 }				t_tex;
 
 typedef struct	s_map
@@ -95,7 +101,7 @@ typedef	struct	s_mlx
 	int			qkey;
 	int			ekey;
 	t_map		*map;
-	t_tex		tex[9];
+	t_tex		*tex;
 }				t_mlx;
 /*
 **		raycasting.c
